@@ -1,24 +1,35 @@
 services:
-  # A Docker web service
+  # A Docker web service for SynthoOS
   - type: web
-    name: langflow
+    name: synthoos
     runtime: docker
     dockerfilePath: ./docker/render.Dockerfile
-    repo: https://github.com/langflow-ai/langflow
+    repo: https://github.com/MYSTICFAE04/SYNTHOOS
     branch: main
     plan: standard
     healthCheckPath: /health_check
-    autoDeploy: false
+    autoDeploy: true
     envVars:
-      - key: LANGFLOW_DATABASE_URL
-        value: sqlite:////app/data/.cache/langflow/langflow.db
       - key: LANGFLOW_HOST
         value: 0.0.0.0
       - key: LANGFLOW_PORT
-        # default render port https://docs.render.com/web-services#port-binding
         value: 10000
+      - key: LANGFLOW_CONFIG_DIR
+        value: /app/data
+      - key: LANGFLOW_SAVE_DB_IN_CONFIG_DIR
+        value: true
+      - key: LANGFLOW_DATABASE_URL
+        value: sqlite:////app/data/synthoos.db
+      - key: LANGFLOW_AUTO_LOGIN
+        value: false
+      - key: LANGFLOW_SUPERUSER
+        value: admin
+      - key: LANGFLOW_SUPERUSER_PASSWORD
+        generateValue: true
+      - key: LANGFLOW_SSRF_PROTECTION_ENABLED
+        value: true
       - key: LANGFLOW_LOG_LEVEL
         value: INFO
     disk:
-      name: langflow-data
+      name: synthoos-data
       mountPath: /app/data
