@@ -1,15 +1,81 @@
-# Langflow Security Policy & Responsible Disclosure
+# SECURITY.md
 
-This security policy applies to all public projects under the langflow-ai organization on GitHub. We prioritize security and continuously work to safeguard our systems. However, vulnerabilities can still exist. If you identify a security issue, please report it to us so we can address it promptly.
+## Security Reporting
 
-### Security/Bugfix Versions
+If you discover a security vulnerability in SynthoOS, please report it responsibly by emailing security@synthoos.dev or opening a private security advisory on GitHub.
 
-- Fixes are released either as part of the next minor version (e.g., 1.3.0 → 1.4.0) or as an on-demand patch version (e.g., 1.3.0 → 1.3.1).
-- Security fixes are given priority and might be enough to cause a new version to be released.
+**Please do NOT open public issues for security vulnerabilities.**
 
-## Report a vulnerability
+### What to Include in Your Report
 
-Please do not report security vulnerabilities through public GitHub issues or GitHub security advisories.
-To report a vulnerability, submit a report on [HackerOne](https://hackerone.com/ibm).
-Include a clear description of the issue, steps to reproduce, the Langflow version, and any known or suggested mitigations.
-Our team aims to respond to all new vulnerability reports within **7 business days**.
+- Description of the vulnerability
+- Steps to reproduce
+- Potential impact
+- Suggested remediation (if any)
+
+### Response Timeline
+
+We aim to:
+1. Acknowledge receipt within 48 hours
+2. Confirm the vulnerability within 7 days
+3. Release a patch within 30 days when possible
+
+## Security Practices
+
+### Pre-commit Security Scanning
+
+SynthoOS uses automated tools to prevent secrets leakage:
+
+- **detect-secrets**: Scans for API keys, credentials, and tokens
+- **Dependabot**: Monitors dependencies for known vulnerabilities
+- **GitHub Secret Scanning**: Detects exposed credentials
+
+### Required Before Commit
+
+```bash
+# Install pre-commit hooks
+uv run pre-commit install
+
+# Run security checks
+uv run pre-commit run --all-files
+```
+
+### Secrets Management
+
+Never commit:
+- API keys or tokens
+- Database credentials
+- Private encryption keys
+- Personal access tokens
+- OAuth tokens
+
+Use environment variables or `.env` files (excluded from git) instead.
+
+## Dependency Security
+
+### Regular Updates
+
+- Weekly dependency scans via Dependabot
+- Automatic PRs for updates
+- Security patches prioritized
+
+### Reporting Dependency Vulnerabilities
+
+If you find a vulnerable dependency:
+
+1. Check if we've already opened an issue
+2. Create a new issue with:
+   - Package name and version
+   - CVE details (if available)
+   - Severity level
+   - Suggested fixed version
+
+## Contact
+
+- **Security Team**: security@synthoos.dev
+- **GitHub Issues**: [Report publicly safe issues only](https://github.com/MYSTICFAE04/SYNTHOOS/issues)
+- **Private Advisory**: Use GitHub's security advisory feature
+
+## Acknowledgments
+
+We appreciate security researchers who help keep SynthoOS safe. Researchers who responsibly disclose vulnerabilities may be listed in our security acknowledgments (with permission).
