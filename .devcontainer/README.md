@@ -1,60 +1,73 @@
-# Langflow Demo Codespace Readme
+# SynthoOS Development Container Setup
 
-These instructions will walk you through the process of running a Langflow demo via GitHub Codespaces.
-
-If you want a faster and easier demo experience with Langflow, download and install [Langflow Desktop](https://docs.langflow.org/get-started-installation#install-and-run-langflow-desktop) for the least complicated setup experience.
+This guide will walk you through setting up and running SynthoOS via GitHub Codespaces or a local dev container.
 
 ## Create a Codespace in GitHub
 
-To setup the demo in Codespace:
+To setup SynthoOS in a Codespace:
 
-1. Navigate to the Langflow repo
-2. On the "Code <>" button, select the "Codespaces" tab
-3. Click the green "Create codespace on..." button (or "+" icon if you want more options) to create a new Codespace
+1. Navigate to the [SynthoOS repository](https://github.com/MYSTICFAE04/SYNTHOOS)
+2. Click the **"<> Code"** button and select the **"Codespaces"** tab
+3. Click the green **"Create codespace on main"** button to create a new Codespace
 
 ## Wait for everything to install
 
-After the codespace is opened, there will be two phases to the process. It will take ≈5-10 minutes to complete.
+After the codespace opens, installation happens in two phases (~5-10 minutes total):
 
-* **Phase 1**: Building Container; you can click on the "Building Codespace" link to watch the logs
-* **Phase 2**: Building Langflow; the terminal will now show `Running postCreateCommand...`, similar to:
+- **Phase 1**: Building Container - you can view logs by clicking "Building Codespace"
+- **Phase 2**: Running postCreateCommand - the terminal will show setup progress
 
-```
-✔ Finishing up...
-⠸ Running postCreateCommand...
-  › sudo chown -R langflow .venv .mypy_cache src/frontend/node_modules src/frontend/build src/backend/base/langflow/frontend && make install_frontend && mak…
-```
+Once completed, this terminal window will close automatically.
 
-Once completed, this terminal window will close.
-
-You now need to manually build the frontend. Open a new Terminal and run command:
+You now need to manually build the frontend. Open a new Terminal and run:
 
 ```bash
 make build_frontend
 ```
 
-This will take a short period of time, you should have a message similar to `Building frontend static files` and the command will complete successfully.
-
-Installation is now complete.
+This will compile the React frontend into production bundles. You should see output like:
+```
+✓ Building frontend static files
+```
 
 ## Start up the Service
 
-Open a new Terminal, and type `uv run langflow run`.
+Open a new Terminal and start SynthoOS:
 
-The service will start, and you will may notice a dialog in the lower right indicating there is a port available to connect to. However, the service will not be ready until you see the welcome banner:
-
-```
-╭───────────────────────────────────────────────────────────────────────╮
-│ Welcome to Langflow                                                   │
-│                                                                       │
-│ 🌟 GitHub: Star for updates → https://github.com/langflow-ai/langflow  │
-│ 💬 Discord: Join for support → https://discord.com/invite/EqksyE2EX9   │
-│                                                                       │
-│ We collect anonymous usage data to improve Langflow.                  │
-│ To opt out, set: DO_NOT_TRACK=true in your environment.               │
-│                                                                       │
-│ 🟢 Open Langflow → http://localhost:7860                               │
-╰───────────────────────────────────────────────────────────────────────╯
+```bash
+uv run synthoos run
 ```
 
-At this point you can connect to the service via the port, or if the dialog is gone you can find the "Forwarded Address" on the "Ports" tab (which is next the "Terminal" tab). If there is no port forwarded, you can click the "Forward a Port" button on the "Ports" tab, and forward `7860`.
+The service will start and you may see a port forwarding dialog. **The service is ready when you see:**
+
+```
+╭────────────────────────────────────────────────────────────────╮
+│ Welcome to SynthoOS                                             │
+│                                                                 │
+│ 🌟 GitHub: https://github.com/MYSTICFAE04/SYNTHOOS             │
+│ 💬 Discord: Join our community for support                     │
+│                                                                 │
+│ 🟢 Open SynthoOS → http://localhost:7860                       │
+╰────────────────────────────────────────────────────────────────╯
+```
+
+At this point you can:
+- Click the port forwarding link in the bottom-right dialog, OR
+- Find the forwarded address in the **Ports** tab (next to Terminal tab)
+
+Navigate to the forwarded address in your browser to access the SynthoOS UI.
+
+## Troubleshooting
+
+**Issue**: Build fails or services won't start
+- **Solution**: Run `make clean` then `make init` for a fresh build
+
+**Issue**: Frontend not loading
+- **Solution**: Ensure `npm install` completed successfully in `src/frontend/`
+
+**Issue**: Backend API unreachable
+- **Solution**: Check that both frontend and backend services are running in separate terminals
+
+## Next Steps
+
+For full development setup instructions, see [DEVELOPMENT.md](../DEVELOPMENT.md)
